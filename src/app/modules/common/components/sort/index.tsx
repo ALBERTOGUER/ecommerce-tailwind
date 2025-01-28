@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import FilterRadioGroup from "../../../common/components/sort/FilterRadioGroup";
 
 export type SortOptions = "price_asc" | "price_desc" | "created_at";
