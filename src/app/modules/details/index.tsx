@@ -1,6 +1,3 @@
-import { Text } from "@medusajs/ui";
-
-import Link from "next/link";
 import Thumbnail from "../common/components/thumbnail";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks";
 import { Product } from "../common/types";

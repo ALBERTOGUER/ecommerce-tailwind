@@ -1,7 +1,7 @@
 "use client";
 import RefinementList from "./modules/common/components/sort/RefinementList";
 
-import { useAppDispatch, useAppSelector, useAppStore } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setProducts } from "@/lib/features/products/productsSlice";
 import { getProductsService } from "../lib/services/products";
 import { Product } from "./modules/common/types";
@@ -43,13 +43,15 @@ export default function Home() {
       try {
         const data = await getProductsService();
         dispatch(setProducts(data));
-      } catch (e) {}
+      } catch (e) {
+        console.error(e);
+      }
     };
     getData();
   }, []);
 
   useEffect(() => {
-    setProductsDisplayed((pre) => products.slice(startIndex, endIndex));
+    setProductsDisplayed(() => products.slice(startIndex, endIndex));
     dispatch(setTotalPages(Math.ceil(products.length / itemsPerPage)));
   }, [products.length]);
 
@@ -58,7 +60,7 @@ export default function Home() {
   }, [page]);
 
   useEffect(() => {
-    setProductsDisplayed((prev) => {
+    setProductsDisplayed(() => {
       return products.filter((prod) =>
         prod.title.toLocaleLowerCase().includes(nameSearch)
       );

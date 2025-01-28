@@ -1,5 +1,5 @@
 import { Product } from '@/app/modules/common/types';
-import { createSlice, current } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 import { Key } from 'react';
 

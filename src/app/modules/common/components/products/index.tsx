@@ -4,16 +4,7 @@ import { Product } from "../../types";
 import { Pagination } from "../pagination";
 import { useAppSelector } from "@/lib/hooks";
 
-type PaginatedProductsParams = {
-  limit: number;
-  collection_id?: string[];
-  category_id?: string[];
-  id?: string[];
-  order?: string;
-};
-
 export default function PaginatedProducts({
-  sortBy,
   page,
   products,
 }: {

@@ -1,7 +1,5 @@
 "use client";
-import { Suspense } from "react";
 
-import Link from "next/link";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setCurrentProduct } from "@/lib/features/products/productsSlice";
 import { setIsOpen } from "@/lib/features/cart/cartSlice";
@@ -9,7 +7,6 @@ import { setIsOpen } from "@/lib/features/cart/cartSlice";
 export default function Nav() {
   const dispatch = useAppDispatch();
   const cart = useAppSelector((state) => state.cart.products);
-  const isOpen = useAppSelector((state) => state.cart.isOpen);
 
   return (
     <div className="sticky top-0 inset-x-0 z-50 group">

@@ -1,6 +1,4 @@
-import { setCurrentProduct } from "@/lib/features/products/productsSlice";
 import { useAppSelector } from "@/lib/hooks";
-import { current } from "@reduxjs/toolkit";
 
 export default function Cart() {
   const cartProducts = useAppSelector((state) => state.cart.products);
