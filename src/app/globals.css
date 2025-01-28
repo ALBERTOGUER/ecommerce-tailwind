@@ -19,3 +19,62 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.content-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 1440px;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.txt-compact-medium {
+  font-size: .875rem;
+  font-weight: 400;
+}
+
+
+.text-ui-fg-interactive {
+  color: #1180c0;
+}
+
+.txt-medium {
+  font-size: .875rem;
+  line-height: 1.5rem;
+}
+
+@media (min-width: 1024px) {
+  .small\:flex-row {
+    flex-direction: row;
+  }
+
+  .small\:items-start {
+    align-items: flex-start;
+  }
+
+  .small\:px-0 {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .small\:flex-col {
+    flex-direction: column;
+  }
+
+  .small-min-width {
+    min-width: 250px;
+  }
+
+  .small\:grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+}
+
+@media (min-width: 1024px) {
+  .medium\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+}
