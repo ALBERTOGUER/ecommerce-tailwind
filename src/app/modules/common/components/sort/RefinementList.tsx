@@ -1,24 +1,32 @@
-"use client"
-
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { useCallback } from "react"
-
-import SortProducts, { SortOptions } from "./index"
+"use client";
+import SortProducts, { SortOptions } from "./index";
 
 type RefinementListProps = {
-    search?: boolean
-    'data-testid'?: string,
-    handleSort: (value: SortOptions) => void
-}
+  "data-testid"?: string;
+  search: string;
+  setSearching: (value: string) => void;
+  handleSort: (value: SortOptions) => void;
+};
 
-const RefinementList = ({ handleSort, 'data-testid': dataTestId }: RefinementListProps) => {
+const RefinementList = ({
+  handleSort,
+  "data-testid": dataTestId,
+  setSearching,
+  search,
+}: RefinementListProps) => {
+  return (
+    <div className="flex small:flex-col gap-12 py-4 mb-8 small:px-0 pl-6 small-min-width">
+      <SortProducts handleSort={handleSort} data-testid={dataTestId} />
+      <input
+        className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        id="search"
+        type="text"
+        placeholder="Search"
+        onChange={(e) => setSearching(e.target.value)}
+        value={search}
+      />
+    </div>
+  );
+};
 
-
-    return (
-        <div className="flex small:flex-col gap-12 py-4 mb-8 small:px-0 pl-6 small-min-width">
-            <SortProducts handleSort={handleSort} data-testid={dataTestId} />
-        </div>
-    )
-}
-
-export default RefinementList
+export default RefinementList;

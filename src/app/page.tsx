@@ -1,5 +1,4 @@
-
-"use client"
+"use client";
 import RefinementList from "./modules/common/components/sort/RefinementList";
 
 import { useAppDispatch, useAppSelector, useAppStore } from "@/lib/hooks";
@@ -7,58 +6,94 @@ import { setProducts } from "@/lib/features/products/productsSlice";
 import { getProductsService } from "../lib/services/products";
 import { Product } from "./modules/common/types";
 import PaginatedProducts from "./modules/common/components/products";
-import { useEffect, useState } from "react";
+import { Key, useEffect, useState } from "react";
 import { SortOptions } from "./modules/common/components/sort";
-
-
-
+import { setTotalPages } from "@/lib/features/pagination/paginationSlice";
+import Details from "./modules/details";
+//import { Modal } from "react-pattern-components";
+//import Cart from "./modules/cart/page";
 
 export default function Home() {
-
   const dispatch = useAppDispatch();
-  const products: Product[] = useAppSelector((state) => state.products.products)
-  const [productsDisplayed, setProductsDisplayed] = useState(products)
+  const [nameSearch, setNameSearch] = useState("");
 
-  const handleSort = (value: SortOptions) => {
+  const products: Product[] = useAppSelector(
+    (state) => state.products.products
+  );
+  const currentProduct: Key | undefined = useAppSelector(
+    (state) => state.products.currentProduct
+  );
+
+  const page: number = useAppSelector((state) => state.pagination.page);
+  const [productsDisplayed, setProductsDisplayed] = useState(products);
+  const itemsPerPage = 4;
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+
+  const handleSortPagination = (value: SortOptions) => {
     const sortedProducts = [...products].sort((a, b) => {
-      return value == 'price_asc' ? a.price - b.price : b.price - a.price
-    })
-    setProductsDisplayed(sortedProducts)
-  }
+      return value == "price_asc" ? a.price - b.price : b.price - a.price;
+    });
+    dispatch(setProducts(sortedProducts));
+    setProductsDisplayed(sortedProducts.slice(startIndex, endIndex));
+  };
 
   useEffect(() => {
     const getData = async () => {
       try {
         const data = await getProductsService();
-
         dispatch(setProducts(data));
-      } catch (e) {
-
-      }
-    }
-    getData()
-  }, [])
+      } catch (e) {}
+    };
+    getData();
+  }, []);
 
   useEffect(() => {
-    setProductsDisplayed(products)
-  }, [products.length])
+    setProductsDisplayed((pre) => products.slice(startIndex, endIndex));
+    dispatch(setTotalPages(Math.ceil(products.length / itemsPerPage)));
+  }, [products.length]);
+
+  useEffect(() => {
+    setProductsDisplayed(products.slice(startIndex, endIndex));
+  }, [page]);
+
+  useEffect(() => {
+    setProductsDisplayed((prev) => {
+      return products.filter((prod) =>
+        prod.title.toLocaleLowerCase().includes(nameSearch)
+      );
+    });
+  }, [nameSearch]);
 
   return (
-
     <div className="flex flex-col small:flex-row small:items-start py-6 content-container">
-      <RefinementList handleSort={handleSort} />
-      <div className="w-full">
-        <div className="mb-8 text-2xl-semi">
-          <h1 data-testid="store-page-title" className="text-3xl">All products</h1>
-        </div>
-        <PaginatedProducts
-          sortBy={"created_at"}
-          page={12}
-          products={productsDisplayed}
-        />
+      {!currentProduct ? (
+        <>
+          <RefinementList
+            handleSort={handleSortPagination}
+            setSearching={setNameSearch}
+            search={nameSearch}
+          />
+          <div className="w-full">
+            <div className="mb-8 text-2xl-semi">
+              <h1 data-testid="store-page-title" className="text-3xl">
+                All products
+              </h1>
+            </div>
+            <PaginatedProducts
+              sortBy={"created_at"}
+              page={page}
+              products={productsDisplayed}
+            />
+          </div>
+        </>
+      ) : (
+        <Details />
+      )}
 
-      </div>
+      {/* <Modal isOpen={isOpen} tittle={"Payment"}>
+        <Cart />
+      </Modal> */}
     </div>
-
   );
 }
