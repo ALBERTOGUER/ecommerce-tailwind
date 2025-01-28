@@ -1,5 +1,6 @@
 import { EllipseMiniSolid } from "@medusajs/icons";
 import { Label, RadioGroup, Text, clx } from "@medusajs/ui";
+import { SortOptions } from ".";
 
 type FilterRadioGroupProps = {
   title: string;
@@ -8,7 +9,7 @@ type FilterRadioGroupProps = {
     label: string;
   }[];
   value: string;
-  handleChange: (...args: string[]) => void;
+  handleChange: (value: SortOptions) => void;
   "data-testid"?: string;
 };
 
